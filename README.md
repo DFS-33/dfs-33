@@ -28,7 +28,7 @@ Objetivo: Compartilhar os meus estudos e projetos, fiquem á vontade para entrar
     
   <div align="center">
   <a href="https://github.com/DFS-33">
-  <img height="150em" src="https://github-readme-stats.vercel.app/api?username=DFS-33&show_icons=true&theme=blue&include_all_commits=true&count_private=true"/>
+  <img height="150em" src="https://github-readme-stats.vercel.app/api?username=DFS-33&show_icons=true&theme=darcula&include_all_commits=true&count_private=true"/>
 </div>
 
 ## Tecnolologias que eu utilizo 
@@ -42,4 +42,3 @@ Objetivo: Compartilhar os meus estudos e projetos, fiquem á vontade para entrar
 <img align="center" alt="R" src=https://img.shields.io/badge/Trello-0052CC?style=for-the-badge&logo=trello&logoColor=white"/>
 </div><br>
 
-<b>Apaixonado por tecnologia, mas em específico área de dados/ Big Data<b>
