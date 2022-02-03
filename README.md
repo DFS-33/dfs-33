@@ -9,6 +9,8 @@
 **Estudando atualmente:** Python, Pyspark e Ecosistema Hadoop.   
 **Experiência com:** SQL Server, Python para análise de dados e Power Bi.
 
+Objetivo: Compartilhar os meus estudos e projetos, fiquem á vontade para entrar em contato comigo por e-mail ou linkedin. 🖤 
+
 <a href="https://www.linkedin.com/in/douglas-silva-fernando//">
     <img
          align="center"
