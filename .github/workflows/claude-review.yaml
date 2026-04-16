@@ -1,4 +1,4 @@
-# Claude Code AI Review - Invoice Processing Pipeline
+# Claude Code AI Review
 # Provides deep AI-powered code review on PRs
 #
 # Features:
@@ -42,11 +42,11 @@ jobs:
             /review
 
             Focus on:
-            1. Security vulnerabilities (especially LLM prompt injection)
-            2. Pydantic model validation completeness
-            3. Error handling in Cloud Run functions
-            4. Adherence to Adapter Pattern architecture
-            5. LangFuse observability integration
+            1. Security vulnerabilities
+            2. Code correctness and edge cases
+            3. Error handling
+            4. Test coverage gaps
+            5. Adherence to project standards in CLAUDE.md
           claude_args: |
             --max-turns 5
             --model claude-sonnet-4-5-20250929

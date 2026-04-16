@@ -10,13 +10,72 @@
 
 ---
 
-## Quick Start (3 steps)
+## Como usar no VS Code — Passo a Passo
 
-**1. Customize** — fill in the `{placeholders}` in `.github/copilot-instructions.md`
+### 1. Instale a extensão GitHub Copilot
 
-**2. Open Copilot Chat** — `Ctrl+Shift+I` (Windows/Linux) or `Cmd+Shift+I` (Mac)
+Abra o VS Code → aba **Extensions** (`Ctrl+Shift+X`) → pesquise **"GitHub Copilot"** → instale.
+Faça login com sua conta GitHub quando solicitado.
 
-**3. Start a feature** — type `/brainstorm` and describe your idea
+### 2. Ative os arquivos de instrução
+
+Adicione ao seu `.vscode/settings.json` (ou nas configurações globais do VS Code):
+
+```json
+{
+  "github.copilot.chat.codeGeneration.useInstructionFiles": true
+}
+```
+
+Isso faz o Copilot carregar `.github/copilot-instructions.md` automaticamente em toda sessão.
+
+### 3. Personalize as instruções do projeto
+
+Abra `.github/copilot-instructions.md` e preencha os placeholders:
+
+```
+Ctrl+H  →  buscar: {YOUR_    →  substituir pelo valor real
+```
+
+Exemplo: `{YOUR_PROJECT_NAME}` → `meu-projeto-backend`
+
+### 4. Abra o Copilot Chat
+
+Pressione `Ctrl+Shift+I` (Windows/Linux) ou `Cmd+Shift+I` (Mac).
+O painel de chat abre na lateral direita.
+
+### 5. Invoque um agente ou workflow
+
+**Via slash command** (se aparecer no autocomplete):
+```
+/brainstorm "Quero adicionar cache na API"
+```
+
+**Via `#file:` reference** (sempre funciona):
+```
+#file:.github/prompts/workflow/brainstorm.prompt.md
+Quero adicionar cache na API
+```
+
+> Dica: digite `#file:.github/prompts/` e use `Tab` para navegar pelos arquivos disponíveis.
+
+### 6. Use KBs para embasar respostas
+
+Referencie um KB antes da sua pergunta para obter respostas mais precisas:
+
+```
+#file:.github/prompts/kb/python-reference.prompt.md
+Como valido campos cruzados no Pydantic v2?
+```
+
+### 7. Combine agente + arquivo + KB
+
+```
+#file:.github/prompts/agents/code-reviewer.prompt.md
+#file:.github/prompts/kb/testing-reference.prompt.md
+#file:src/services/payment.py
+Revise este arquivo e gere os testes pytest
+```
 
 ---
 
