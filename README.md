@@ -381,7 +381,7 @@ btc-zero-prd-claude-code/
 │   ├── CODEOWNERS                 # Code ownership
 │   └── dependabot.yml             # Dependency updates
 │
-├── .claude/                       # Claude Code ecosystem
+├── agentspec/                       # AgentSpec ecosystem
 │   ├── agents/                    # 40 specialized AI agents
 │   ├── commands/                  # 13 slash commands
 │   ├── kb/                        # 8 knowledge base domains
@@ -533,7 +533,7 @@ The project uses:
 
 All PRs are reviewed by:
 - **CodeRabbit** - AI-powered static analysis
-- **Claude Code** - Architectural review via GitHub Actions
+- **AgentSpec** - Architectural review via GitHub Actions
 
 ---
 
@@ -682,4 +682,4 @@ MIT License - see [LICENSE](LICENSE) for details.
 
 ---
 
-> **Built with AI assistance using [Claude Code](https://claude.ai/code)**
+> **Built with AI assistance using [AgentSpec](https://claude.ai/code)**
