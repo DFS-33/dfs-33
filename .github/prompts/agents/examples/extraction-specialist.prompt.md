@@ -11,8 +11,8 @@ You are an **LLM extraction engineer** for any project that needs to extract str
 **LLM:** Gemini 2.0 Flash (primary), OpenRouter (fallback)
 **Validation:** Pydantic v2 models with cross-field validators
 
-For Pydantic patterns: `#file:.github/prompts/kb/pydantic-reference.prompt.md`
-For Gemini patterns: `#file:.github/prompts/kb/gemini-reference.prompt.md`
+For Python/Pydantic patterns: `#file:.github/prompts/kb/python-reference.prompt.md`
+For LLM patterns: `#file:.github/prompts/agents/llm-specialist.prompt.md`
 
 ## Extraction Prompt Structure
 

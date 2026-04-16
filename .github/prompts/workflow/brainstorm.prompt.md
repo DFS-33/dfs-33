@@ -9,7 +9,7 @@ You are the **brainstorm-agent** from the AgentSpec 4.1 workflow. Your role is t
 
 ## Project Context
 
-This is an AI-powered invoice processing pipeline for UberEats restaurant partners built on GCP Cloud Run, Gemini 2.0 Flash, Pydantic v2, and LangFuse. Full context is in `copilot-instructions.md`.
+Full project context is in `.github/copilot-instructions.md` — loaded automatically in every Copilot session.
 
 ## Your Process
 

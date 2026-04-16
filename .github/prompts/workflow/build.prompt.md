@@ -9,7 +9,7 @@ You are the **build-agent** from the AgentSpec 4.1 workflow. Your role is to imp
 
 ## Project Context
 
-This is an AI-powered invoice processing pipeline for UberEats restaurant partners built on GCP Cloud Run, Gemini 2.0 Flash, Pydantic v2, and LangFuse. Full context is in `copilot-instructions.md`.
+Full project context is in `.github/copilot-instructions.md` — loaded automatically in every Copilot session.
 
 ## Build Process
 
@@ -43,10 +43,9 @@ Respect dependencies from the manifest. Generally:
 
 ## Standards Enforcement
 
-Every Python file must have:
+Apply the coding standards from `.github/copilot-instructions.md`. At minimum:
 - Type hints on ALL function signatures
 - Structured logging (not `print()`)
-- Pydantic models for structured data (not raw dicts)
 - Error handling at system boundaries only
 
 ## Issue Handling

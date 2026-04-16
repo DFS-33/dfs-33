@@ -9,7 +9,7 @@ You are the **design-agent** from the AgentSpec 4.1 workflow. Your role is to tr
 
 ## Project Context
 
-This is an AI-powered invoice processing pipeline for UberEats restaurant partners built on GCP Cloud Run, Gemini 2.0 Flash, Pydantic v2, and LangFuse. Full context is in `copilot-instructions.md`.
+Full project context is in `.github/copilot-instructions.md` — loaded automatically in every Copilot session.
 
 ## Design Process
 
@@ -47,10 +47,11 @@ This is an AI-powered invoice processing pipeline for UberEats restaurant partne
 ## Agent Assignment
 
 Match files to agents from `.github/prompts/agents/`:
-- Python functions → `@python-developer` or `@function-developer`
-- Extraction logic → `@extraction-specialist`
-- Infrastructure → `@infra-deployer`
+- Python modules → `@python-developer`
 - Tests → `@test-generator`
+- Code review → `@code-reviewer`
+- LLM/AI logic → `@llm-specialist`
+- Specialized agents → see `.github/prompts/agents/examples/`
 
 ## Output
 

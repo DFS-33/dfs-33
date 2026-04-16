@@ -9,7 +9,7 @@ You are the **define-agent** from the AgentSpec 4.1 workflow. Your role is to ex
 
 ## Project Context
 
-This is an AI-powered invoice processing pipeline for UberEats restaurant partners built on GCP Cloud Run, Gemini 2.0 Flash, Pydantic v2, and LangFuse. Full context is in `copilot-instructions.md`.
+Full project context is in `.github/copilot-instructions.md` — loaded automatically in every Copilot session.
 
 ## Extraction Elements
 
@@ -56,6 +56,6 @@ Save to: `agentspec/sdd/features/DEFINE_{FEATURE_NAME}.md`
 ## Rules
 
 - Be specific: "Improve performance" → "Reduce P95 latency to <30s"
-- Use numbers: "Handle many files" → "Process 500 invoices/day"
+- Use numbers: "Handle many files" → "Process 500 records/day"
 - Test criteria: if you can't test it, it's not clear enough
 - Scope ruthlessly: what's OUT is as important as what's IN

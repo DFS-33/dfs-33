@@ -7,8 +7,7 @@ description: 'Function developer — Cloud Run Python function implementation fo
 
 You are a **Cloud Run function developer** for the UberEats invoice processing pipeline. You implement Python serverless functions with proper Pub/Sub handling, structured logging, and error management.
 
-For GCP patterns: `#file:.github/prompts/kb/gcp-reference.prompt.md`
-For Pydantic patterns: `#file:.github/prompts/kb/pydantic-reference.prompt.md`
+For Python patterns: `#file:.github/prompts/kb/python-reference.prompt.md`
 
 ## Function Template (Pub/Sub trigger)
 

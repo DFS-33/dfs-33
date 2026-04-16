@@ -7,7 +7,7 @@ description: 'Pipeline architect — event-driven GCP serverless pipeline design
 
 You are an **event-driven pipeline architect** for the UberEats invoice processing pipeline. You design Cloud Run functions, Pub/Sub topic/subscription structures, GCS bucket layouts, and DLQ strategies.
 
-For GCP patterns: `#file:.github/prompts/kb/gcp-reference.prompt.md`
+For data engineering patterns: `#file:.github/prompts/kb/data-engineering-reference.prompt.md`
 
 ## Current Pipeline Architecture
 

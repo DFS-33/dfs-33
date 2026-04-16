@@ -1,22 +1,22 @@
 # AgentSpec — GitHub Copilot Usage Guide
 
-> The AgentSpec 4.1 workflow ported to GitHub Copilot. This folder contains everything you need to run structured feature development, invoke specialist agents, and reference knowledge base patterns — natively in VS Code.
+> The AgentSpec 4.1 workflow integrated with GitHub Copilot. This folder contains everything you need to run structured feature development, invoke specialist agents, and reference knowledge base patterns — natively in VS Code.
 
 ## Requirements
 
 - VS Code 1.95+
-- GitHub Copilot extension (enterprise license)
+- GitHub Copilot extension
 - Open this repository in VS Code
 
 ---
 
 ## Quick Start (3 steps)
 
-**1. Open Copilot Chat** — `Ctrl+Shift+I` (Windows/Linux) or `Cmd+Shift+I` (Mac)
+**1. Customize** — fill in the `{placeholders}` in `.github/copilot-instructions.md`
 
-**2. Start a feature** — type `/brainstorm` in the chat input and describe your idea
+**2. Open Copilot Chat** — `Ctrl+Shift+I` (Windows/Linux) or `Cmd+Shift+I` (Mac)
 
-**3. Follow the workflow** — Copilot guides you through Phase 0 → 4
+**3. Start a feature** — type `/brainstorm` and describe your idea
 
 ---
 
@@ -24,13 +24,31 @@
 
 ```text
 .github/
-├── copilot-instructions.md   ← loaded automatically in every session
+├── copilot-instructions.md   ← loaded automatically in every session (CUSTOMIZE THIS FIRST)
 └── prompts/
     ├── README.md             ← you are here
     ├── workflow/             ← 5-phase SDD pipeline
-    ├── agents/               ← 10 specialist agents
-    └── kb/                   ← 3 knowledge base domains
+    ├── agents/               ← universal specialist agents
+    │   └── examples/         ← specialized agents (reference for creating your own)
+    └── kb/                   ← universal knowledge base domains
+        └── examples/         ← specialized KB domains (reference for creating your own)
 ```
+
+---
+
+## Step 0: Customize copilot-instructions.md
+
+Before using any agents or workflows, fill in the placeholders in `.github/copilot-instructions.md`.
+
+Search for `{YOUR_` to find every placeholder:
+
+| Placeholder | Replace With |
+|-------------|--------------|
+| `{YOUR_PROJECT_NAME}` | Your project name |
+| `{YOUR_PROJECT_DESCRIPTION}` | 2-3 sentences on what the project does |
+| `{YOUR_TECH_STACK}` | Language, framework, database, infra |
+| `{YOUR_CODING_STANDARD_*}` | Your team's non-negotiable standards |
+| `{YOUR_TERM_*}` | Domain vocabulary specific to your project |
 
 ---
 
@@ -49,39 +67,32 @@ Run features from idea to archive using the structured development workflow.
 ### How to invoke
 
 ```
-# In Copilot Chat — slash command (Phase 0)
-/brainstorm "I want to add PDF support to the pipeline"
+# In Copilot Chat — slash command
+/brainstorm "I want to add retry logic to the API"
 
-# Or via #file: reference
+# Via #file: reference
 #file:.github/prompts/workflow/define.prompt.md
-Process this BRAINSTORM: #file:agentspec/sdd/features/BRAINSTORM_PDF_SUPPORT.md
+Process this BRAINSTORM: #file:agentspec/sdd/features/BRAINSTORM_MY_FEATURE.md
 
 # Pass an existing document
 #file:.github/prompts/workflow/design.prompt.md
-Design from: #file:agentspec/sdd/features/DEFINE_PDF_SUPPORT.md
+Design from: #file:agentspec/sdd/features/DEFINE_MY_FEATURE.md
 ```
 
-### Output location
-
-SDD artifacts go to `agentspec/sdd/features/` (same as AgentSpec — shared).
+SDD artifacts go to `agentspec/sdd/features/` (active) and `agentspec/sdd/archive/` (shipped).
 
 ---
 
-## Specialist Agents
+## Universal Agents
 
-10 domain-specific agents available for focused tasks.
+5 agents ready to use on any project.
 
 | Agent | File | Use When |
 |-------|------|----------|
-| `code-reviewer` | `agents/code-reviewer.prompt.md` | Review any Python or Terraform file |
-| `python-developer` | `agents/python-developer.prompt.md` | Write type-safe Python with Pydantic |
-| `extraction-specialist` | `agents/extraction-specialist.prompt.md` | Design Gemini extraction prompts |
-| `pipeline-architect` | `agents/pipeline-architect.prompt.md` | Design Cloud Run + Pub/Sub pipelines |
-| `function-developer` | `agents/function-developer.prompt.md` | Implement Cloud Run functions |
+| `code-reviewer` | `agents/code-reviewer.prompt.md` | Review any Python or IaC file |
+| `python-developer` | `agents/python-developer.prompt.md` | Write type-safe Python |
 | `test-generator` | `agents/test-generator.prompt.md` | Generate pytest tests |
-| `llm-specialist` | `agents/llm-specialist.prompt.md` | Optimize LLM prompts and output |
-| `infra-deployer` | `agents/infra-deployer.prompt.md` | Terraform/Terragrunt IaC |
-| `dataops-builder` | `agents/dataops-builder.prompt.md` | CrewAI monitoring agents |
+| `llm-specialist` | `agents/llm-specialist.prompt.md` | Design LLM prompts and extraction |
 | `github-copilot-specialist` | `agents/github-copilot-specialist.prompt.md` | Configure Copilot itself |
 
 ### How to invoke an agent
@@ -89,106 +100,89 @@ SDD artifacts go to `agentspec/sdd/features/` (same as AgentSpec — shared).
 ```
 # Review a specific file
 #file:.github/prompts/agents/code-reviewer.prompt.md
-Review #file:functions/gcp/v1/src/functions/data_extractor/main.py
+Review #file:src/mymodule/handler.py
 
 # Write new code
 #file:.github/prompts/agents/python-developer.prompt.md
-Write a new Pydantic model for classifying invoice documents
+Write a Pydantic model for representing a customer order
 
 # Generate tests
 #file:.github/prompts/agents/test-generator.prompt.md
-Generate pytest tests for #file:functions/gcp/v1/src/shared/schemas/invoice.py
+Generate pytest tests for #file:src/mymodule/models.py
 ```
+
+### Example Agents (reference for creating your own)
+
+The `agents/examples/` folder contains specialized agents from a real project. Use them as templates when creating agents for your specific stack:
+
+| Agent | Reference Stack |
+|-------|----------------|
+| `extraction-specialist` | LLM document extraction |
+| `pipeline-architect` | Cloud Run + Pub/Sub pipelines |
+| `function-developer` | Serverless functions |
+| `dataops-builder` | CrewAI monitoring agents |
+| `infra-deployer` | Terraform/Terragrunt IaC |
+
+**To create a new agent:** copy any file from `agents/examples/`, update the `description` frontmatter, and replace the system prompt body.
 
 ---
 
 ## Knowledge Base
 
-3 flattened domain references — use with `#file:` to ground Copilot in project-specific patterns.
+4 universal KBs — use with `#file:` to ground Copilot in proven patterns.
 
 | Domain | File | Use For |
 |--------|------|---------|
-| Pydantic v2 | `kb/pydantic-reference.prompt.md` | Models, validators, LLM parsing |
-| GCP | `kb/gcp-reference.prompt.md` | Cloud Run, Pub/Sub, GCS, BigQuery |
-| Gemini | `kb/gemini-reference.prompt.md` | Extraction prompts, structured output |
+| Python | `kb/python-reference.prompt.md` | Type hints, Pydantic v2, logging |
+| Testing | `kb/testing-reference.prompt.md` | pytest, fixtures, mocking |
+| REST API | `kb/rest-api-reference.prompt.md` | HTTP design, FastAPI, auth |
+| Data Engineering | `kb/data-engineering-reference.prompt.md` | ETL, batch/streaming, data quality |
 
-### How to use KB references
+### How to use KBs
 
 ```
 # Ask a domain question
-#file:.github/prompts/kb/pydantic-reference.prompt.md
-How do I validate that due_date is after invoice_date?
+#file:.github/prompts/kb/python-reference.prompt.md
+How do I validate cross-field relationships in Pydantic?
 
 # Combine KB + file context
-#file:.github/prompts/kb/gemini-reference.prompt.md
-#file:functions/gcp/v1/src/shared/adapters/llm.py
-How should I add schema-guided output to this adapter?
+#file:.github/prompts/kb/testing-reference.prompt.md
+#file:src/mymodule/models.py
+Generate pytest tests for this module
 ```
+
+### Example KBs (reference for creating your own)
+
+The `kb/examples/` folder shows how to create specialized KBs for specific technologies:
+
+| KB | Technology |
+|----|-----------|
+| `spark-reference` | Apache Spark / PySpark |
+| `mongodb-reference` | MongoDB / PyMongo |
+| `databricks-reference` | Databricks / Delta Lake |
+
+**To create a new KB:** copy any file from `kb/examples/`, update `description` frontmatter, replace content with your technology's patterns.
 
 ---
 
-## Common Patterns
-
-### Full SDD cycle for a new feature
+## Full SDD Feature Cycle
 
 ```
-1. /brainstorm "Add retry logic to the DLQ processor"
-   → answer discovery questions → Copilot produces BRAINSTORM doc
+1. /brainstorm "Add retry logic to the processor"
+   → answer discovery questions → produces BRAINSTORM doc
 
 2. /define agentspec/sdd/features/BRAINSTORM_{FEATURE}.md
-   → Copilot extracts requirements → produces DEFINE doc
+   → extracts requirements → produces DEFINE doc
 
 3. /design agentspec/sdd/features/DEFINE_{FEATURE}.md
-   → Copilot designs architecture → produces DESIGN doc
+   → designs architecture → produces DESIGN doc
 
 4. /build agentspec/sdd/features/DESIGN_{FEATURE}.md
-   → Copilot implements all files → produces BUILD REPORT
+   → implements all files → produces BUILD REPORT
 
 5. /ship
-   → Copilot archives artifacts + captures lessons learned
+   → archives artifacts + captures lessons learned
 ```
-
-### Quick code review before PR
-
-```
-#file:.github/prompts/agents/code-reviewer.prompt.md
-Review my changes: #file:functions/gcp/v1/src/functions/data_extractor/main.py
-```
-
-### Write tests for existing code
-
-```
-#file:.github/prompts/agents/test-generator.prompt.md
-Generate unit tests for #file:functions/gcp/v1/src/shared/schemas/invoice.py
-Focus on: validation errors, computed fields, edge cases
-```
-
-### Design a new pipeline component
-
-```
-#file:.github/prompts/agents/pipeline-architect.prompt.md
-Design a new function that validates invoice totals against BigQuery records
-```
-
----
-
-## Adding a New Agent
-
-1. Copy any file from `prompts/agents/` as a starting point
-2. Update `description` in the YAML frontmatter
-3. Replace the system prompt with your agent's role, standards, and patterns
-4. Reference relevant KB files with `#file:.github/prompts/kb/{domain}-reference.prompt.md`
-5. Test: `#file:.github/prompts/agents/your-new-agent.prompt.md test task here`
-6. Commit and open a PR — agents are versioned in git
-
----
-
-## Adding MCP Support (Future)
-
-When you need MCP server functionality (library docs lookup, code search), see the guide in:
-`agentspec/sdd/features/BRAINSTORM_AGENTSPEC_COPILOT_PORT.md` → "Future Guide: Adding MCP Support"
-
-Three options available: VS Code Tasks proxy (quick), Copilot Extension (full parity), AgentSpec sidecar (zero effort).
 
 ---
 
@@ -197,7 +191,6 @@ Three options available: VS Code Tasks proxy (quick), Copilot Extension (full pa
 | Problem | Solution |
 |---------|---------|
 | `/brainstorm` not recognized | Check VS Code Copilot extension is updated; try `#file:` invocation instead |
-| Agent gives generic (non-project) answer | Add `#file:.github/copilot-instructions.md` to your message |
-| Copilot doesn't know the tech stack | Verify `.github/copilot-instructions.md` exists in repo root |
-| Prompt file not found | Use VS Code file autocomplete — type `#file:.github/prompts/` and browse |
-| KB answer seems outdated | Cross-check with `agentspec/kb/{domain}/` via AgentSpec for full depth |
+| Agent gives generic answer | Add `#file:.github/copilot-instructions.md` to your message |
+| Copilot doesn't know the tech stack | Verify `.github/copilot-instructions.md` has `{placeholders}` filled in |
+| Prompt file not found | Use VS Code autocomplete: type `#file:.github/prompts/` and browse |

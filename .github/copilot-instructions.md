@@ -1,29 +1,74 @@
-# AgentSpec Framework
+# {YOUR_PROJECT_NAME}
 
-AI-assisted development framework with structured 5-phase SDD workflow, 40 specialist agents, and 8 knowledge base domains. Use this for any project — clone, customize, and start building.
+<!-- SETUP INSTRUCTIONS:
+     Replace every {YOUR_*} placeholder with your project's actual content.
+     This file is loaded automatically in every GitHub Copilot session.
+     Keep it under ~200 lines — each line competes for the context window.
+     Run a search for "{YOUR_" to find all placeholders at once.
+-->
 
-## Framework Structure
+## What This Project Does
 
-| Location | Purpose |
-|----------|---------|
-| `agentspec/agents/` | 40 specialist agents by category |
-| `agentspec/commands/` | 13 slash commands |
-| `agentspec/kb/` | 8 knowledge base domains |
-| `agentspec/sdd/` | SDD workflow templates and artifacts |
-| `agentspec/dev/` | Dev Loop (Level 2 agentic development) |
-| `.github/prompts/` | Copilot-native integration (this directory) |
+<!-- 2-3 sentences: what the project does and what problem it solves -->
+{YOUR_PROJECT_DESCRIPTION}
+
+---
+
+## Technology Stack
+
+<!-- List the main technologies. Be specific — versions matter for Copilot accuracy. -->
+
+| Layer | Technology | Version |
+|-------|------------|---------|
+| Language | {e.g., Python} | {e.g., 3.11+} |
+| Framework | {e.g., FastAPI} | {e.g., 0.104+} |
+| Database | {e.g., PostgreSQL} | {e.g., 15} |
+| Messaging | {e.g., Kafka / Pub/Sub / SQS} | - |
+| Infrastructure | {e.g., AWS Lambda / Cloud Run} | - |
+| Observability | {e.g., Datadog / LangFuse / OpenTelemetry} | - |
+| IaC | {e.g., Terraform / CDK / Pulumi} | - |
+
+---
 
 ## Coding Standards
 
-- **Type hints required** on ALL function signatures — no bare `def f(x)`
-- **Pydantic v2** for ALL structured data — never pass raw dicts between functions
-- **Structured JSON logging** — never use `print()`
-- **Ruff** linter: line-length 100, select `E/F/I/UP/B/SIM`
-- **`@computed_field`** for derived values
-- **`@model_validator(mode='after')`** for cross-field validation
-- **Adapter pattern** for all external services — each service has its own adapter
+<!-- List non-negotiable standards for this project. Be specific — "use Pydantic" is better than "validate data". -->
 
-## AgentSpec SDD Workflow
+- **{YOUR_STANDARD_1}**: {e.g., "Type hints required on ALL function signatures — no bare `def f(x)`"}
+- **{YOUR_STANDARD_2}**: {e.g., "Pydantic v2 for ALL structured data — never pass raw dicts between functions"}
+- **{YOUR_STANDARD_3}**: {e.g., "Structured JSON logging — never use `print()` in production code"}
+- **{YOUR_STANDARD_4}**: {e.g., "Adapter pattern for all external services — each service has its own adapter class"}
+- **{YOUR_STANDARD_5}**: {e.g., "Ruff linter: line-length 100, select E/F/I/UP/B/SIM"}
+
+---
+
+## Key File Locations
+
+<!-- Help Copilot navigate your project structure -->
+
+| What | Where |
+|------|-------|
+| Main source | `{e.g., src/}` |
+| Tests | `{e.g., tests/}` |
+| Config | `{e.g., config/}` |
+| Infrastructure | `{e.g., infra/}` |
+| Shared utilities | `{e.g., src/shared/}` |
+
+---
+
+## Domain Vocabulary
+
+<!-- Terms specific to your domain that Copilot should understand -->
+
+| Term | Meaning |
+|------|---------|
+| {YOUR_TERM_1} | {Definition — what this concept means in your domain} |
+| {YOUR_TERM_2} | {Definition} |
+| {YOUR_TERM_3} | {Definition} |
+
+---
+
+## AgentSpec Workflow
 
 | Phase | Command | Output |
 |-------|---------|--------|
@@ -35,12 +80,10 @@ AI-assisted development framework with structured 5-phase SDD workflow, 40 speci
 
 Artifacts: `agentspec/sdd/features/` (active) → `agentspec/sdd/archive/` (shipped)
 
+---
+
 ## Copilot Integration
 
 Specialist agents: `.github/prompts/agents/` — reference via `#file:`
 KB references: `.github/prompts/kb/` — use `#file:` for domain patterns
 Full usage guide: `.github/prompts/README.md`
-
----
-
-> **Customize this file** — replace this content with your project's tech stack, file locations, domain vocabulary, and team conventions. This file is loaded automatically in every Copilot session.
