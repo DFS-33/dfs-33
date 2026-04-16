@@ -9,7 +9,7 @@
 | **Feature** | AGENTSPEC_COPILOT_TEMPLATE |
 | **Date** | 2026-04-16 |
 | **Author** | define-agent |
-| **Status** | Ready for Design |
+| **Status** | ✅ Shipped |
 | **Clarity Score** | 14/15 |
 | **Source** | `agentspec/sdd/features/BRAINSTORM_AGENTSPEC_COPILOT_TEMPLATE.md` |
 

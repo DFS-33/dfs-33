@@ -10,7 +10,7 @@
 | **Date** | 2026-04-16 |
 | **Author** | design-agent |
 | **DEFINE** | [DEFINE_AGENTSPEC_COPILOT_TEMPLATE.md](./DEFINE_AGENTSPEC_COPILOT_TEMPLATE.md) |
-| **Status** | Ready for Build |
+| **Status** | ✅ Shipped |
 
 ---
 
