@@ -171,3 +171,7 @@ credentials.json
 **/.terraform/
 *.tfstate
 *.tfstate.*
+
+# Claude Code local settings
+.claude/
+settings.local.json

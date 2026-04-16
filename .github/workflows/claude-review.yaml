@@ -1,4 +1,4 @@
-# Claude Code AI Review
+# AI Review via GitHub Actions
 # Provides deep AI-powered code review on PRs
 #
 # Features:
@@ -6,7 +6,7 @@
 # - @claude mentions for interactive questions
 # - Follows CLAUDE.md project standards
 
-name: Claude Code Review
+name: AI Review
 
 on:
   pull_request:
@@ -20,21 +20,21 @@ permissions:
   contents: read
   pull-requests: write
   issues: write
-  id-token: write  # Required for Claude Code Action OIDC
+  id-token: write  # Required for OIDC
 
 jobs:
   # ============================================
   # Automatic Review on PR Open/Update
   # ============================================
   auto-review:
-    name: Claude Code Review
+    name: AI Review
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request'
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Run Claude Code Review
+      - name: Run AI Review
         uses: anthropics/claude-code-action@v1
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
@@ -55,7 +55,7 @@ jobs:
   # Interactive @claude Mentions
   # ============================================
   interactive:
-    name: Claude Interactive
+    name: AI Interactive
     runs-on: ubuntu-latest
     if: |
       (github.event_name == 'issue_comment' && contains(github.event.comment.body, '@claude')) ||

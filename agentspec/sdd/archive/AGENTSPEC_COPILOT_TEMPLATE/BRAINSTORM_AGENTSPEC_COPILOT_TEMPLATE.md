@@ -71,7 +71,7 @@
 - Aproveita estrutura madura que já funciona
 - Git history preservado
 - É cirurgia, não reescrita — menor esforço
-- Claude Code + Copilot compartilham os mesmos artefatos SDD
+- AgentSpec + Copilot compartilham os mesmos artefatos SDD
 
 **Cons:**
 - Requer atenção para não deixar rastros em comentários ou exemplos de código
