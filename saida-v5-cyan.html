@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Saída Analítica Unificada — Cyan Editorial</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,800;0,900;1,400;1,700;1,800;1,900&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root { --bg: #080810; }
+
+    html, body {
+      width:100%; height:100%; overflow:hidden;
+      font-family:'Space Mono', monospace;
+      display:flex; align-items:center; justify-content:center;
+      background:#04040C;
+    }
+
+    .deck { width:1280px; height:720px; position:relative; overflow:hidden; flex-shrink:0; }
+
+    .slide {
+      position:absolute; inset:0;
+      display:flex; flex-direction:column; align-items:center; justify-content:center;
+      opacity:0; pointer-events:none; transition:opacity 0.55s ease;
+    }
+    .slide.active { opacity:1; pointer-events:auto; }
+
+    /* ── TOP NAV ── */
+    .topnav {
+      position:absolute; top:0; left:0; right:0; height:44px;
+      display:flex; align-items:center; justify-content:space-between;
+      padding:0 2rem;
+      border-bottom:1px solid rgba(255,255,255,0.07);
+      background:rgba(8,8,16,0.85); backdrop-filter:blur(12px);
+      z-index:500;
+    }
+    .nav-logo { font-size:0.62rem; letter-spacing:0.14em; text-transform:uppercase; color:#38BDF8; display:flex; align-items:center; gap:0.5rem; }
+    .nav-logo span { opacity:0.7; font-size:0.9rem; }
+    .nav-center { font-family:'Playfair Display',serif; font-style:italic; font-size:0.88rem; color:rgba(255,255,255,0.55); }
+    .nav-right  { font-size:0.6rem; letter-spacing:0.1em; color:rgba(255,255,255,0.3); }
+
+    /* ── SIDE DOTS ── */
+    .side-nav {
+      position:absolute; right:1.3rem; top:50%; transform:translateY(-50%);
+      display:flex; flex-direction:column; align-items:center; gap:7px; z-index:300;
+    }
+    .side-dot { width:6px; height:6px; border-radius:50%; border:1px solid rgba(255,255,255,0.2); background:transparent; cursor:pointer; transition:all 0.3s; }
+    .side-dot.active { width:9px; height:9px; background:#38BDF8; border-color:#38BDF8; box-shadow:0 0 8px rgba(56,189,248,0.8); }
+
+    /* ── BACK BUTTON ── */
+    .back-btn { position:absolute; left:1.4rem; top:50%; transform:translateY(-50%); background:none; border:none; color:rgba(255,255,255,0.22); font-size:1.15rem; cursor:pointer; z-index:300; transition:color 0.2s; }
+    .back-btn:hover { color:rgba(255,255,255,0.6); }
+
+    /* ════ SLIDE 1 — HERO ════ */
+    .s1 {
+      background:
+        radial-gradient(ellipse 65% 55% at 50% 58%, rgba(14,50,110,0.3) 0%, transparent 70%),
+        var(--bg);
+    }
+    .s1-inner { display:flex; flex-direction:column; align-items:center; text-align:center; gap:1.3rem; padding:0 2rem; margin-top:44px; }
+
+    .mod-label { font-size:0.66rem; letter-spacing:0.22em; text-transform:uppercase; color:#38BDF8; display:flex; align-items:center; gap:0.55rem; }
+    .mod-label::before { content:'◆'; font-size:0.52rem; }
+
+    .tags { display:flex; gap:0.65rem; }
+    .tag { font-size:0.66rem; font-weight:700; letter-spacing:0.1em; padding:0.28rem 0.9rem; border-radius:5px; }
+    .tag-acc { background:#38BDF8; color:#080810; }
+    .tag-dim { background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); color:rgba(255,255,255,0.6); }
+
+    .hero-title { display:flex; flex-direction:column; align-items:center; line-height:1.05; gap:0.05em; }
+    .hero-l1 { font-family:'Playfair Display',serif; font-size:clamp(3.8rem,7vw,6rem); font-weight:800; color:white; }
+    .hero-l2 {
+      font-family:'Playfair Display',serif; font-style:italic;
+      font-size:clamp(3.8rem,7vw,6rem); font-weight:800;
+      background:linear-gradient(95deg,#38BDF8 0%,#93C5FD 42%,#D4A843 70%,#FBBF24 100%);
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+    }
+    .hero-sub { font-family:'Playfair Display',serif; font-style:italic; font-size:1rem; color:rgba(255,255,255,0.5); max-width:560px; }
+
+    .play-btn { width:58px; height:58px; border-radius:50%; background:#38BDF8; border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; box-shadow:0 0 28px rgba(56,189,248,0.55); transition:transform 0.2s,box-shadow 0.2s; }
+    .play-btn:hover { transform:scale(1.1); box-shadow:0 0 40px rgba(56,189,248,0.75); }
+    .play-btn svg { width:22px; height:22px; fill:#080810; margin-left:4px; }
+
+    /* ════ SLIDE 2 — QUOTE ════ */
+    .s2 { background:var(--bg); }
+    .quote-wrap { max-width:860px; padding:0 3rem; margin-top:44px; text-align:center; }
+    .quote-wrap p { font-family:'Playfair Display',serif; font-style:italic; font-size:clamp(1.35rem,2.2vw,1.8rem); color:rgba(255,255,255,0.9); line-height:1.72; }
+    .hi-acc { color:#38BDF8; }
+    .hi-dim { color:rgba(255,255,255,0.38); }
+
+    /* ════ SLIDE 3 — COMPARISON ════ */
+    .s3 { background:var(--bg); justify-content:flex-start; padding-top:calc(44px + 2rem); }
+    .s3-inner { width:100%; max-width:1180px; padding:0 2.5rem; display:flex; flex-direction:column; gap:1.6rem; }
+    .s3-title { font-family:'Playfair Display',serif; font-style:italic; font-weight:900; font-size:clamp(2rem,3.4vw,2.7rem); color:white; }
+    .s3-title .vs { color:#38BDF8; font-style:normal; }
+    .cards-row { display:flex; gap:1.5rem; width:100%; }
+
+    .cmp-card { flex:1; border-radius:12px; padding:2.1rem 1.9rem 1.8rem; position:relative; overflow:hidden; display:flex; flex-direction:column; gap:0.75rem; }
+    .badge { position:absolute; top:-0.72rem; left:50%; transform:translateX(-50%); font-size:0.58rem; font-weight:700; letter-spacing:0.18em; padding:0.24rem 0.85rem; border-radius:100px; white-space:nowrap; color:white; }
+
+    .card-red { background:rgba(239,68,68,0.05); border:1px solid rgba(239,68,68,0.38); box-shadow:0 0 35px rgba(239,68,68,0.1),inset 0 0 25px rgba(239,68,68,0.03); }
+    .card-red .badge { background:#DC2626; }
+    .card-red .watermark { position:absolute; top:-1rem; right:1rem; font-family:'Playfair Display',serif; font-size:8.5rem; font-weight:900; font-style:italic; color:rgba(239,68,68,0.07); line-height:1; pointer-events:none; user-select:none; }
+    .card-red .card-label { font-size:0.56rem; font-weight:700; letter-spacing:0.22em; text-transform:uppercase; color:#EF4444; margin-top:0.6rem; }
+    .card-red .card-title { font-family:'Playfair Display',serif; font-style:italic; font-weight:800; font-size:2rem; color:#EF4444; line-height:1.1; }
+    .card-red .card-sub { font-family:'Playfair Display',serif; font-style:italic; font-size:0.87rem; color:rgba(255,255,255,0.55); }
+    .card-red .card-body { font-family:'Playfair Display',serif; font-style:italic; font-size:0.79rem; color:rgba(255,255,255,0.52); line-height:1.72; }
+    .card-red .card-body strong { font-style:normal; color:rgba(255,255,255,0.82); }
+
+    .card-acc { background:rgba(56,189,248,0.05); border:1px solid rgba(56,189,248,0.38); box-shadow:0 0 35px rgba(56,189,248,0.1),inset 0 0 25px rgba(56,189,248,0.03); }
+    .card-acc .badge { background:#0284C7; }
+    .card-acc .card-label { font-size:0.56rem; font-weight:700; letter-spacing:0.22em; text-transform:uppercase; color:#38BDF8; margin-top:0.6rem; }
+    .card-acc .card-title { font-family:'Playfair Display',serif; font-style:italic; font-weight:800; font-size:2rem; color:#38BDF8; line-height:1.1; }
+    .card-acc .card-sub { font-family:'Playfair Display',serif; font-style:italic; font-size:0.87rem; color:rgba(255,255,255,0.55); }
+    .card-acc .card-body { font-family:'Playfair Display',serif; font-style:italic; font-size:0.79rem; color:rgba(255,255,255,0.52); line-height:1.72; }
+    .card-acc .card-body strong { font-style:normal; color:rgba(255,255,255,0.82); }
+
+    /* ════ SLIDE 4 — METRICS ════ */
+    .s4 { background:var(--bg); justify-content:flex-start; align-items:flex-start; padding-top:44px; }
+    .s4-inner { width:100%; height:calc(100% - 44px); display:flex; flex-direction:column; padding:1.5rem 2.8rem 1.2rem; }
+    .s4-act { font-size:0.6rem; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; color:#38BDF8; display:flex; align-items:center; gap:0.5rem; margin-bottom:0.3rem; }
+    .s4-act::before { content:'◆'; font-size:0.5rem; }
+    .s4-title { font-family:'Playfair Display',serif; font-style:italic; font-weight:900; font-size:clamp(1.8rem,2.8vw,2.5rem); color:white; line-height:1.1; margin-bottom:0.5rem; }
+    .s4-title .hi-amb { color:#FBBF24; }
+    .s4-body { flex:1; display:flex; align-items:center; gap:2.5rem; }
+    .s4-left { flex:0 0 40%; display:flex; flex-direction:column; gap:1rem; }
+    .s4-stat { font-family:'Playfair Display',serif; font-style:italic; font-weight:900; font-size:clamp(6rem,10vw,9rem); color:#38BDF8; line-height:0.9; letter-spacing:-0.02em; }
+    .s4-desc { font-family:'Playfair Display',serif; font-style:italic; font-size:0.9rem; color:rgba(255,255,255,0.5); line-height:1.65; max-width:380px; }
+    .s4-hl { background:rgba(56,189,248,0.22); color:rgba(255,255,255,0.85); border-radius:2px; padding:0 3px; }
+    .s4-tags { display:flex; flex-wrap:wrap; gap:0.5rem; }
+    .s4-tag { font-size:0.55rem; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; padding:0.3rem 0.75rem; border-radius:3px; border:1px solid rgba(255,255,255,0.28); color:rgba(255,255,255,0.5); }
+    .s4-right { flex:1; display:flex; flex-direction:column; height:100%; padding-top:0.4rem; }
+    .chart-meta { text-align:right; margin-bottom:0.4rem; font-size:0.54rem; letter-spacing:0.14em; text-transform:uppercase; }
+    .cm-dim { color:rgba(255,255,255,0.28); }
+    .cm-acc { color:#38BDF8; }
+    .cm-red { color:#EF4444; }
+    .chart-svg { flex:1; width:100%; overflow:visible; }
+
+    /* ════ SLIDE 5 — ROADMAP ════ */
+    .s5 { background:var(--bg); justify-content:flex-start; align-items:flex-start; padding-top:44px; }
+    .s5-inner { width:100%; height:calc(100% - 44px); display:flex; flex-direction:column; padding:1.5rem 2.8rem 1.5rem; gap:1rem; }
+    .s5-act { font-size:0.6rem; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; color:#38BDF8; display:flex; align-items:center; gap:0.5rem; }
+    .s5-act::before { content:'◆'; font-size:0.5rem; }
+    .s5-title { font-family:'Playfair Display',serif; font-style:italic; font-weight:900; font-size:clamp(1.6rem,2.6vw,2.3rem); color:white; line-height:1.1; }
+    .s5-title .hi-acc { color:#38BDF8; }
+    .s5-months { display:flex; padding-left:215px; margin-bottom:0.3rem; }
+    .s5-month { flex:1; text-align:center; font-size:0.56rem; letter-spacing:0.14em; text-transform:uppercase; color:rgba(255,255,255,0.25); }
+    .s5-month.now { color:#38BDF8; }
+    .s5-rows { flex:1; display:flex; flex-direction:column; gap:1rem; justify-content:center; }
+    .s5-row { display:flex; align-items:center; gap:1.5rem; }
+    .s5-lbl { width:200px; flex-shrink:0; display:flex; flex-direction:column; gap:2px; }
+    .s5-task { font-size:0.72rem; font-weight:700; letter-spacing:0.06em; color:rgba(255,255,255,0.85); display:block; }
+    .s5-sub  { font-size:0.55rem; color:rgba(255,255,255,0.3); letter-spacing:0.08em; display:block; }
+    .s5-track { flex:1; height:30px; position:relative; }
+    .s5-bar { position:absolute; top:4px; height:22px; border-radius:4px; display:flex; align-items:center; justify-content:center; font-size:0.56rem; font-weight:700; letter-spacing:0.08em; white-space:nowrap; padding:0 8px; }
+    .s5-bar.done    { background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); color:rgba(255,255,255,0.35); }
+    .s5-bar.active  { background:#38BDF8; color:#080810; }
+    .s5-bar.planned { background:rgba(56,189,248,0.05); border:1px solid rgba(56,189,248,0.38); color:#38BDF8; }
+
+    @media (prefers-reduced-motion:reduce) { .slide,.side-dot { transition:none; } }
+  </style>
+</head>
+<body>
+<div class="deck">
+
+  <nav class="topnav">
+    <div class="nav-logo"><span>⊙</span>Plataforma de Decisão · Squad</div>
+    <div class="nav-center">Da fragmentação à plataforma unificada</div>
+    <div class="nav-right">⌀ SAÍDA ANALÍTICA · 2026</div>
+  </nav>
+
+  <button class="back-btn" id="backBtn">↺</button>
+  <div class="side-nav" id="sideNav"></div>
+
+  <!-- ════ SLIDE 1 — HERO ════ -->
+  <div class="slide s1 active">
+    <div class="s1-inner">
+      <div class="mod-label">Plataforma de Decisão · 2026</div>
+      <div class="tags">
+        <span class="tag tag-acc">Tópico Kafka</span>
+        <span class="tag tag-dim">FICO · EARNIX · TECTILE</span>
+      </div>
+      <div class="hero-title">
+        <span class="hero-l1">Saída</span>
+        <span class="hero-l2">Analítica</span>
+      </div>
+      <p class="hero-sub">Registros, evidências e logs de cada decisão automatizada — rastreabilidade completa da jornada.</p>
+      <button class="play-btn">
+        <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- ════ SLIDE 2 — QUOTE ════ -->
+  <div class="slide s2">
+    <div class="quote-wrap">
+      <p>"O que os motores decidem, a Saída Analítica <span class="hi-acc">registra.</span> Cada variável, cada score, cada alçada — disponível para análise, governança e auditoria. <span class="hi-dim">Em tempo real.</span>"</p>
+    </div>
+  </div>
+
+  <!-- ════ SLIDE 3 — COMPARISON ════ -->
+  <div class="slide s3">
+    <div class="s3-inner">
+      <h2 class="s3-title">Fragmentado <span class="vs">×</span> Unificado</h2>
+      <div class="cards-row">
+
+        <div class="cmp-card card-red">
+          <div class="badge">ANTES · 2024</div>
+          <div class="watermark">01</div>
+          <div class="card-label">O Problema</div>
+          <div class="card-title">Cada motor,<br>um projeto</div>
+          <div class="card-sub">Crescimento fragmentado por squad.</div>
+          <div class="card-body">
+            CP tinha <strong>seu tópico.</strong> ORPAG tinha o <strong>seu.</strong> ALÇADAS tinha o <strong>seu.</strong> Três pipelines paralelos, três times de manutenção, três formas de erro. <strong>Cada ajuste custava semanas</strong> de provisionamento de infra — duplicando complexidade a cada ciclo.
+          </div>
+        </div>
+
+        <div class="cmp-card card-acc">
+          <div class="badge">AGORA · 2026</div>
+          <div class="card-label">A Plataforma</div>
+          <div class="card-title">Um tópico,<br>todos os motores</div>
+          <div class="card-sub">Tópico Kafka Central · Raw · Silver.</div>
+          <div class="card-body">
+            FICO, Earnix e TecTile publicam no <em>mesmo tópico.</em> A Tabela Raw absorve tudo — <strong>self-service</strong> para squads. A Tabela Silver entrega o dado <em>curado</em> e pronto para análise. <strong>Zero provisionamento de infra</strong> por novo motor adicionado.
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ════ SLIDE 4 — METRICS ════ -->
+  <div class="slide s4">
+    <div class="s4-inner">
+      <div class="s4-act">Ato 3 · Resultados Mensuráveis</div>
+      <h2 class="s4-title">Engenharia <span class="hi-amb">80% mais rápida</span> — com menos infra</h2>
+      <div class="s4-body">
+        <div class="s4-left">
+          <div class="s4-stat">80%</div>
+          <p class="s4-desc">redução no ciclo de engenharia. De <span class="s4-hl">semanas para horas</span> — do contrato de envelope à produção.</p>
+          <div class="s4-tags">
+            <span class="s4-tag">SLA –90%</span>
+            <span class="s4-tag">Zero Provisionamento</span>
+            <span class="s4-tag">3+ Plataformas</span>
+          </div>
+        </div>
+        <div class="s4-right">
+          <div class="chart-meta">
+            <span class="cm-dim">Ciclo de Engenharia · </span>
+            <span class="cm-acc">Agora</span>
+            <span class="cm-dim"> · </span>
+            <span class="cm-red">Antes</span>
+          </div>
+          <svg class="chart-svg" viewBox="0 0 500 230" preserveAspectRatio="xMidYMid meet">
+            <defs>
+              <linearGradient id="ga" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#38BDF8" stop-opacity="0.28"/>
+                <stop offset="100%" stop-color="#38BDF8" stop-opacity="0.03"/>
+              </linearGradient>
+              <linearGradient id="gb" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#EF4444" stop-opacity="0.16"/>
+                <stop offset="100%" stop-color="#EF4444" stop-opacity="0.03"/>
+              </linearGradient>
+            </defs>
+            <line x1="60" y1="20"  x2="480" y2="20"  stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+            <line x1="60" y1="75"  x2="480" y2="75"  stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+            <line x1="60" y1="130" x2="480" y2="130" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+            <line x1="60" y1="185" x2="480" y2="185" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+            <text x="54" y="24"  text-anchor="end" font-family="Space Mono,monospace" font-size="9" fill="rgba(255,255,255,0.3)">Sem</text>
+            <text x="54" y="79"  text-anchor="end" font-family="Space Mono,monospace" font-size="9" fill="rgba(255,255,255,0.3)">Dias</text>
+            <text x="54" y="134" text-anchor="end" font-family="Space Mono,monospace" font-size="9" fill="rgba(255,255,255,0.3)">Hrs</text>
+            <text x="54" y="189" text-anchor="end" font-family="Space Mono,monospace" font-size="9" fill="rgba(255,255,255,0.3)">Min</text>
+            <path d="M 60,22 C 160,22 200,24 480,26 L 480,200 L 60,200 Z" fill="url(#gb)"/>
+            <path d="M 60,22 C 160,22 200,24 480,26" fill="none" stroke="#EF4444" stroke-width="2" stroke-dasharray="6,4" opacity="0.6"/>
+            <path d="M 60,22 C 100,22 120,152 480,158 L 480,200 L 60,200 Z" fill="url(#ga)"/>
+            <path d="M 60,22 C 100,22 120,152 480,158" fill="none" stroke="#38BDF8" stroke-width="2.5"/>
+            <line x1="60" y1="200" x2="480" y2="200" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+            <text x="60"  y="214" text-anchor="middle" font-family="Space Mono,monospace" font-size="9" fill="rgba(255,255,255,0.25)">Motor 1</text>
+            <text x="165" y="214" text-anchor="middle" font-family="Space Mono,monospace" font-size="9" fill="rgba(255,255,255,0.25)">Motor 2</text>
+            <text x="270" y="214" text-anchor="middle" font-family="Space Mono,monospace" font-size="9" fill="rgba(255,255,255,0.25)">Motor 3</text>
+            <text x="375" y="214" text-anchor="middle" font-family="Space Mono,monospace" font-size="9" fill="rgba(255,255,255,0.25)">Motor 4</text>
+            <text x="480" y="214" text-anchor="middle" font-family="Space Mono,monospace" font-size="9" fill="rgba(255,255,255,0.25)">Motor N</text>
+            <circle cx="60" cy="22" r="5" fill="#EF4444"/>
+            <text x="68" y="18" font-family="'Playfair Display',serif" font-style="italic" font-size="9.5" fill="rgba(239,68,68,0.75)">antes · semanas por motor</text>
+            <circle cx="480" cy="158" r="5" fill="#38BDF8"/>
+            <text x="474" y="150" text-anchor="end" font-family="'Playfair Display',serif" font-style="italic" font-size="9.5" fill="#38BDF8">agora · horas</text>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════ SLIDE 5 — ROADMAP ════ -->
+  <div class="slide s5">
+    <div class="s5-inner">
+      <div class="s5-act">Ato 4 · Próximos Passos</div>
+      <h2 class="s5-title">Roteiro <span class="hi-acc">Mai – Jul 2026</span></h2>
+      <div class="s5-months">
+        <div class="s5-month">Abr 2026</div>
+        <div class="s5-month now">Mai 2026</div>
+        <div class="s5-month">Jun 2026</div>
+        <div class="s5-month">Jul 2026</div>
+      </div>
+      <div class="s5-rows">
+        <div class="s5-row">
+          <div class="s5-lbl"><span class="s5-task">Tópico Kafka</span><span class="s5-sub">Ambiente de produção</span></div>
+          <div class="s5-track"><div class="s5-bar done" style="left:0%;width:25%">✓ Concluído</div></div>
+        </div>
+        <div class="s5-row">
+          <div class="s5-lbl"><span class="s5-task">Contrato Envelope</span><span class="s5-sub">Definição de variáveis</span></div>
+          <div class="s5-track"><div class="s5-bar active" style="left:25%;width:50%">Mai – Jun</div></div>
+        </div>
+        <div class="s5-row">
+          <div class="s5-lbl"><span class="s5-task">Habilitação Motores</span><span class="s5-sub">cmr · cp</span></div>
+          <div class="s5-track"><div class="s5-bar active" style="left:25%;width:50%">Mai – Jun</div></div>
+        </div>
+        <div class="s5-row">
+          <div class="s5-lbl"><span class="s5-task">Integração Earnix</span><span class="s5-sub">Motor → Tópico Central</span></div>
+          <div class="s5-track"><div class="s5-bar planned" style="left:50%;width:50%">Jun – Jul</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+<script>
+(function(){
+  const TOTAL=5, slides=document.querySelectorAll('.slide'), sideNav=document.getElementById('sideNav');
+  let cur=0;
+  const DOTS=10, dots=[];
+  for(let i=0;i<DOTS;i++){
+    const d=document.createElement('span');
+    d.className='side-dot'+(i===0?' active':'');
+    if(i<TOTAL) d.addEventListener('click',()=>show(i));
+    sideNav.appendChild(d); dots.push(d);
+  }
+  function show(i){
+    slides.forEach((s,j)=>s.classList.toggle('active',j===i));
+    dots.forEach((d,j)=>d.classList.toggle('active',j===i));
+    cur=i;
+  }
+  document.getElementById('backBtn').addEventListener('click',()=>{if(cur>0)show(cur-1);});
+  document.addEventListener('keydown',e=>{
+    if(e.key==='ArrowRight'&&cur<TOTAL-1)show(cur+1);
+    if(e.key==='ArrowLeft'&&cur>0)show(cur-1);
+  });
+  document.querySelector('.deck').addEventListener('click',e=>{
+    if(!e.target.closest('.side-nav,#backBtn,.play-btn'))if(cur<TOTAL-1)show(cur+1);
+  });
+  show(0);
+  function scaleDeck(){
+    const s=Math.min(window.innerWidth/1280,window.innerHeight/720);
+    const d=document.querySelector('.deck');
+    d.style.transform='scale('+s+')';
+    d.style.transformOrigin='top left';
+    d.style.marginLeft=((window.innerWidth-1280)/2)+'px';
+    d.style.marginTop=((window.innerHeight-720)/2)+'px';
+  }
+  window.addEventListener('resize',scaleDeck);
+  scaleDeck();
+}());
+</script>
+</body>
+</html>
